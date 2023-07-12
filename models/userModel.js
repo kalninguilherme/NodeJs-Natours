@@ -48,15 +48,24 @@ const userSchema = new mongoose.Schema({
   passwordResetToken: String,
   passwordResetExpires: Date,
   // Delete User TODO:apply isBlocked / blockedIn / blockReason
-  active: {
+  isBlocked: {
     type: Boolean,
-    default: true,
+    default: false,
+    select: false,
+  },
+  blockedIn: {
+    type: Date,
+    default: null,
+    select: false,
+  },
+  blockReason: {
+    type: String,
     select: false,
   },
 });
 
 userSchema.pre(/^find/, function (next) {
-  this.find({ active: { $ne: false } });
+  this.find({ isBlocked: { $ne: true } });
   next();
 });
 

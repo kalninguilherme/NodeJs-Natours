@@ -45,7 +45,11 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
+  await User.findByIdAndUpdate(req.user.id, {
+    isBlocked: true,
+    blockedIn: Date.now(),
+    blockReason: 'Account deleted by User',
+  });
 
   res.status(204).json({
     status: 'success',
