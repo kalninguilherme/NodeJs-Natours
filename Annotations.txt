@@ -136,3 +136,15 @@ app.use((req, res, next) => {
     // if (err.name === 'CastError') {
     //   error = handleCastErrorDB(error);
     // }
+
+
+
+    const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
+const aberrant = uuidv4();
+console.log(aberrant);
+
+const a = crypto.createHash('sha256').update(aberrant).digest('hex');
+console.log(a);
+const b = crypto.createHash('sha256').update('64ab68e6-f3b6-44b1-9be5-aa37436c87a9').digest('hex');
+console.log(b);
