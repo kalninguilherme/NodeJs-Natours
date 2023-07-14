@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+//const User = require('./userModel');
 //const validator = require('validator');
 
 const tourSchema = new mongoose.Schema(
@@ -84,12 +85,51 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    // Embedded Document
+    startLocation: {
+      // GeoJson
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    guides: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
+
+//Virtual populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
 
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
@@ -102,6 +142,18 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+// Mongoose Populate to embbed a database into another (Guides into Tour)
+tourSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'guides', select: '-__v -passwordChangedAt' });
+  next();
+});
+
+// tourSchema.pre('save', async function (next) {
+//   const guidesPromises = this.guides.map(async (_id) => await User.findById(_id));
+//   this.guides = await Promise.all(guidesPromises);
+//   next();
+// });
+
 // Query Middleware - on the query
 //tourSchema.pre('find', function (next) {
 tourSchema.pre(/^find/, function (next) {
@@ -110,16 +162,15 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, function (query, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds`);
-  //console.log(query);
-  next();
-});
-
 // Aggregation Middleware
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   //console.log(this.pipeline()); // This points to the aggregation object
+  next();
+});
+tourSchema.post(/^find/, function (query, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  //console.log(query);
   next();
 });
 

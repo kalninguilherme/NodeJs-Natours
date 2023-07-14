@@ -31,7 +31,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   // if (!isValidObjectId(req.params.id)) {
   //   return next(new AppError('Invalid Tour', 400));
   // }
-  const tour = await Tour.findById(req.params.id);
+  const tour = await Tour.findById(req.params.id).populate('reviews');
   if (!tour) {
     return next(new AppError('No tour found with the ID provided', 400));
   }
@@ -77,14 +77,13 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
   if (!isValidObjectId(req.params.id)) {
     return next(new AppError('Invalid Tour', 400));
   }
-  //const deletedTour = await Tour.findById(req.params.id);
   const tour = await Tour.findByIdAndDelete(req.params.id);
   if (!tour) {
     return next(new AppError('No tour found with the ID provided', 400));
   }
   res.status(204).json({
     status: 'sucess',
-    message: `Tour '${deletedTour.name}' successfully deleted`,
+    data: null,
   });
 });
 

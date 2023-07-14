@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 process.on('uncaughtException', (err) => {
   console.log(err.name, '| Reason:', err.message);
+  console.log('Complete Error Log:', err);
   process.exit(1);
 });
 
@@ -17,7 +18,7 @@ const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
-// Not Ideal: errors shoudl be handled on the place they probably happen
+// Not Ideal: errors should be handled on the place they probably happen
 if (process.env.NODE_ENV === 'DEV') {
   process.on('unhandledRejection', (err, promise) => {
     console.log('Unhandled Rejection at:', promise, 'reason:', err);
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'DEV') {
     });
   });
 } else if (process.env.NODE_ENV === 'PROD') {
+  1;
   process.on('unhandledRejection', (err) => {
     console.log(err.name, '| Reason:', err.message);
     server.close(() => {
