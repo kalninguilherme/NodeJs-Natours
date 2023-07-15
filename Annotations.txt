@@ -156,3 +156,23 @@ console.log(b);
 // Post /tour/234fad/reviews -> nested route
 // Get /tour/234fad/reviews -> nested route
 // Get /tour/234fad/reviews/9435fdas -> nested route
+
+ if (!isValidObjectId(req.params.id)) {
+      return next(new AppError('Invalid Parameters', 400));
+    }
+
+    // exports.deleteTour = catchAsync(async (req, res, next) => {
+//   if (!isValidObjectId(req.params.id)) {
+//     return next(new AppError('Invalid Tour', 400));
+//   }
+//   const tour = await Tour.findByIdAndDelete(req.params.id);
+//   if (!tour) {
+//     return next(new AppError('No tour found with the ID provided', 400));
+//   }
+//   res.status(204).json({
+//     status: 'sucess',
+//     data: null,
+//   });
+// });
+
+const { isValidObjectId } = require('mongoose');
