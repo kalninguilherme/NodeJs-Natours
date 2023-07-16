@@ -47,7 +47,6 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
-  // Delete User TODO:apply isBlocked / blockedIn / blockReason
   isBlocked: {
     type: Boolean,
     default: false,

@@ -13,12 +13,18 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
     message: 'This route is not defined. Pelase use /signup instead',
   });
 };
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create an error if user POST password
   if (req.body.password || req.body.passwordConfirm) {
@@ -38,6 +44,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 exports.deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, {
     isBlocked: true,
