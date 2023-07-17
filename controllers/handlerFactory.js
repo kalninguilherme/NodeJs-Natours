@@ -10,6 +10,7 @@ exports.getAll = (Model) =>
       filter = { tour: req.params.tourId };
     }
     const features = new APIFeatures(Model.find(filter), req.query).filter().sort().limitFields().paginate();
+    //const doc = await features.query.explain();
     const doc = await features.query;
     res.status(200).json({
       status: 'success',
@@ -81,7 +82,7 @@ exports.deleteOne = (Model) =>
 
 exports.deleteOneIfOwner = (Model, idField) =>
   catchAsync(async (req, res, next) => {
-    if (!idField === 'Admin') {
+    if (idField !== 'Admin') {
       const userId = req.user.id;
       const doc = await Model.findOneAndDelete({ _id: req.params.id, [idField]: { _id: userId } });
 
