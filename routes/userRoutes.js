@@ -9,6 +9,7 @@ const router = express.Router();
 //#region Register and Login routes
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 //#endregion
 
 //#region Forget e Reset Password routes

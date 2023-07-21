@@ -27,7 +27,6 @@ if (process.env.NODE_ENV === 'DEV') {
     });
   });
 } else if (process.env.NODE_ENV === 'PROD') {
-  1;
   process.on('unhandledRejection', (err) => {
     console.log(err.name, '| Reason:', err.message);
     server.close(() => {
