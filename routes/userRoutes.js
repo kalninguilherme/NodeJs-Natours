@@ -1,6 +1,5 @@
 const express = require('express');
 const userController = require('./../controllers/userController');
-
 // TODO: Desestructuring
 const authController = require('./../controllers/authController');
 
@@ -22,9 +21,9 @@ router.use(authController.protect);
 
 //#region UserMe routes
 router.get('/me', userController.getMe, userController.getUser);
-router.patch('/updateMe', userController.updateMe);
-router.delete('/deleteMe', userController.deleteMe);
 router.patch('/updateMyPassword', authController.updatePassword);
+router.patch('/updateMe', userController.uploadUserPhoto, userController.resizeUserPhoto, userController.updateMe);
+router.delete('/deleteMe', userController.deleteMe);
 //#endregion
 
 // The restrictTo will run before the below routes
