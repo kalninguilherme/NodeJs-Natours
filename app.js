@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -16,12 +17,22 @@ const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
+// Start express App
 const app = express();
+
+// Set up proxies for deployment
+app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-// 1)Global Middlewares
+// 1) Global Middlewares
+// Implement CORS - Cross Origin Resource Sharing
+app.use(cors());
+
+// For non simples actions
+app.options('*', cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,11 +40,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
-    // contentSecurityPolicy: {
-    //   directives: {
-    //     'script-src': ["'self'",],
-    //   },
-    // },
   })
 );
 

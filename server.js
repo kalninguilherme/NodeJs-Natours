@@ -34,3 +34,8 @@ if (process.env.NODE_ENV === 'DEV') {
     });
   });
 }
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM Received. Shutting down...');
+  server.close();
+});
