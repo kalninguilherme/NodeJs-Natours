@@ -14,6 +14,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const bookingRouter = require('./routes/bookingRoutes');
 
 const app = express();
 
@@ -25,7 +26,61 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
-app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    // contentSecurityPolicy: {
+    //   directives: {
+    //     'script-src': ["'self'",],
+    //   },
+    // },
+  })
+);
+
+// Further HELMET configuration for Security Policy (CSP)
+const scriptSrcUrls = [
+  'https://api.tiles.mapbox.com/',
+  'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+  'https://api.mapbox.com/',
+  'https://*.cloudflare.com',
+  'https://js.stripe.com/v3/',
+  'https://checkout.stripe.com',
+  'https://pay.google.com/about/redirect/',
+];
+const styleSrcUrls = [
+  'https://api.mapbox.com/',
+  'https://api.tiles.mapbox.com/',
+  'https://fonts.googleapis.com/',
+  'https://www.myfonts.com/fonts/radomir-tinkov/gilroy/*',
+  'checkout.stripe.com/',
+];
+const connectSrcUrls = [
+  'https://*.mapbox.com/',
+  'https://*.cloudflare.com',
+  'https://js.stripe.com/',
+  'https://pay.google.com/about/redirect/',
+  'http://127.0.0.1:8000',
+  'http://127.0.0.1:52191',
+  '*.stripe.com',
+];
+
+const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", 'blob:'],
+      objectSrc: [],
+      imgSrc: ["'self'", 'blob:', 'data:'],
+      fontSrc: ["'self'", ...fontSrcUrls],
+      frameSrc: ['*.stripe.com', '*.stripe.network'],
+    },
+  })
+);
 
 // Development logging
 if (process.env.NODE_ENV === 'DEV') {
@@ -67,6 +122,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 // This code will be reached in order
 app.all('*', (req, res, next) => {

@@ -255,3 +255,6 @@ const { isValidObjectId } = require('mongoose');
 //     },
 //   })
 // );
+
+// /tours-within/:distance/center/:latlng/unit/:unit'
+// /tours-within/233/center/-26.303786,-48.869711/unit/km

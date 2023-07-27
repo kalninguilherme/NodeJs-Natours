@@ -65,6 +65,7 @@ exports.aliasTopTours = (req, res, next) => {
   req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
   next();
 };
+
 exports.getTourStats = catchAsync(async (req, res) => {
   const stats = await Tour.aggregate([
     {
@@ -97,6 +98,7 @@ exports.getTourStats = catchAsync(async (req, res) => {
     },
   });
 });
+
 exports.getMonthlyPlan = catchAsync(async (req, res) => {
   const year = req.params.year * 1; // 2021
 
@@ -144,8 +146,6 @@ exports.getMonthlyPlan = catchAsync(async (req, res) => {
   });
 });
 
-// /tours-within/:distance/center/:latlng/unit/:unit'
-// /tours-within/233/center/-26.303786,-48.869711/unit/km
 exports.getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
