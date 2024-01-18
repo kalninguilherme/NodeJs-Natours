@@ -16,18 +16,18 @@ mongoose.connect(DB).then(() => console.log('DB connection successfull'));
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
-  if (process.env.Node_ENV === 'DEV') console.log(`App acessible through the link http://localhost:${port}`);
+  if (process.env.NODE_ENV === 'development') console.log(`App acessible through the link http://localhost:${port}`);
 });
 
 // Not Ideal: errors should be handled on the place they probably happen
-if (process.env.NODE_ENV === 'DEV') {
+if (process.env.NODE_ENV === 'development') {
   process.on('unhandledRejection', (err, promise) => {
     console.log('Unhandled Rejection at:', promise, 'reason:', err);
     server.close(() => {
       process.exit(1);
     });
   });
-} else if (process.env.NODE_ENV === 'PROD') {
+} else if (process.env.NODE_ENV === 'production') {
   process.on('unhandledRejection', (err) => {
     console.log(err.name, '| Reason:', err.message);
     server.close(() => {
