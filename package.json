@@ -1,19 +1,25 @@
 {
   "name": "natours",
   "version": "1.0.0",
-  "description": "Test-Application for Node.Js course",
+  "description": "Project to learn node, express and MongoDB",
   "main": "app.js",
   "targets": {
     "main": false
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "scripts": {
-    "start": "nodemon server.js",
-    "prod": "cross-env NODE_ENV=PROD nodemon server.js",
-    "build": "parcel build ./public/js/index.js --dist-dir ./public/js/bundled",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "start:prod": "SET NODE_ENV=production&&nodemon server.js",
+    "debug": "ndb server.js",
+    "build:js": "parcel build ./public/js/index.js --dist-dir ./public/js/bundled",
     "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundled"
   },
   "author": "Guilherme Kalnin",
   "license": "ISC",
+  "homepage": "",
   "dependencies": {
     "axios": "^1.6.5",
     "bcrypt": "^5.1.0",
@@ -22,7 +28,6 @@
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
-    "eslint-config-prettier": "^8.8.0",
     "express": "^4.18.2",
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^6.7.1",
@@ -35,7 +40,6 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.3",
-    "parcel": "^2.9.3",
     "polyfill": "^0.1.0",
     "prettier": "^2.8.8",
     "pug": "^3.0.2",
@@ -48,8 +52,8 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
-    "buffer": "^6.0.3",
     "eslint": "^8.43.0",
-    "process": "^0.11.10"
+    "eslint-config-prettier": "^9.1.0",
+    "parcel": "2.7"
   }
 }
