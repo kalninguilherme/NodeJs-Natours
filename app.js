@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
-const compression = require('compression');
+// const compression = require('compression');
 const cors = require('cors');
 
 const AppError = require('./utils/appError');
@@ -116,7 +116,7 @@ app.use(xss());
 // Prevent parameter polution (Clean query stream)
 app.use(hpp({ whitelist: ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize', 'difficulty', 'price'] }));
 
-app.use(compression);
+// app.use(compression);
 
 // Test middleware
 app.use((req, res, next) => {

@@ -16,6 +16,7 @@ mongoose.connect(DB).then(() => console.log('DB connection successfull'));
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
+  if (process.env.Node_ENV === 'DEV') console.log(`App acessible through the link http://localhost:${port}`);
 });
 
 // Not Ideal: errors should be handled on the place they probably happen
