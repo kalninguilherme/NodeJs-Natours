@@ -20,7 +20,7 @@ const createSendToken = (user, statusCode, req, res) => {
   };
 
   // Define Cookie for production environment - Change on deployment
-  if (process.env.NODE_ENV === 'PROD' && req.secure) {
+  if (process.env.NODE_ENV === 'production' && req.secure) {
     cookieOptions.secure = true;
   }
   res.cookie('jwt', token, cookieOptions);

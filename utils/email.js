@@ -8,13 +8,13 @@ module.exports = class Email {
     this.firstName = user.name.split(' ')[0];
     this.url = url;
     this.from =
-      process.env.NODE_ENV === 'PROD'
+      process.env.NODE_ENV === 'production'
         ? `Guilherme Kalnin <${process.env.SENDGRID_EMAIL_FROM}>`
         : `Guilherme Kalnin <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
-    if (process.env.NODE_ENV === 'PROD') {
+    if (process.env.NODE_ENV === 'production') {
       // Sendgrid
       return nodemailer.createTransport({
         service: 'SendGrid',

@@ -90,8 +90,8 @@ app.use(
 );
 
 // Development logging
-if (process.env.NODE_ENV === 'DEV') {
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('development'));
 }
 
 // Limit requests from same API

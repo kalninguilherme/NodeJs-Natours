@@ -19,14 +19,14 @@ const server = app.listen(port, () => {
 });
 
 // Not Ideal: errors should be handled on the place they probably happen
-if (process.env.NODE_ENV === 'DEV') {
+if (process.env.NODE_ENV === 'development') {
   process.on('unhandledRejection', (err, promise) => {
     console.log('Unhandled Rejection at:', promise, 'reason:', err);
     server.close(() => {
       process.exit(1);
     });
   });
-} else if (process.env.NODE_ENV === 'PROD') {
+} else if (process.env.NODE_ENV === 'production') {
   process.on('unhandledRejection', (err) => {
     console.log(err.name, '| Reason:', err.message);
     server.close(() => {
