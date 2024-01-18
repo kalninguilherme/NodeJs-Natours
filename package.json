@@ -15,8 +15,8 @@
   "author": "Guilherme Kalnin",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.5",
     "bcrypt": "^5.1.0",
-    "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "core-js": "^3.31.1",
     "cors": "^2.8.5",

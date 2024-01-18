@@ -7,7 +7,6 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
-const compression = require('compression');
 const cors = require('cors');
 
 const AppError = require('./utils/appError');
@@ -90,8 +89,8 @@ app.use(
 );
 
 // Development logging
-if (process.env.NODE_ENV === 'DEV') {
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('development'));
 }
 
 // Limit requests from same API
@@ -115,8 +114,6 @@ app.use(xss());
 
 // Prevent parameter polution (Clean query stream)
 app.use(hpp({ whitelist: ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize', 'difficulty', 'price'] }));
-
-app.use(compression);
 
 // Test middleware
 app.use((req, res, next) => {
